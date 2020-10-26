@@ -1,0 +1,188 @@
+[
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "controller",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_controllerAddress",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "newAuction",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "tokens",
+          "type": "address[]"
+        },
+        {
+          "indexed": false,
+          "name": "auctionAmountOrId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "auctionTokenId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "auditor",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "settings",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "NewAuction",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_auditor",
+          "type": "address"
+        },
+        {
+          "name": "_tokens",
+          "type": "address[]"
+        },
+        {
+          "name": "_auctionAmountOrId",
+          "type": "uint256"
+        },
+        {
+          "name": "_auctionTokenId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_settings",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "deployAuction",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenFallback",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_operator",
+          "type": "address"
+        },
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "name": "_data",
+          "type": "bytes"
+        }
+      ],
+      "name": "onERC721Received",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes4"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_operator",
+          "type": "address"
+        },
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "_tokenId",
+          "type": "bytes32"
+        },
+        {
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "name": "_data",
+          "type": "bytes"
+        }
+      ],
+      "name": "onPNFTReceived",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes4"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]

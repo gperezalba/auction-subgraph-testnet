@@ -1,0 +1,72 @@
+type Auction @entity {
+  id: ID!
+  owner: User! #address
+  auctionToken: Token! #address
+  auctionAmount: BigInt!
+  auctionCollectable: Commodity
+  auctionPackable: PackableId
+  bidToken: Token! #address
+  bidPrice: BigInt!
+  minValue: BigInt!
+  maxBid: BigInt!
+  maxBidder: User
+  startTime: BigInt!
+  endTime: BigInt!
+  auditor: Bytes
+  description: String!
+  category: BigInt!
+  bids: [Bid!]
+  isOpen: Boolean!
+  isClose: Boolean!
+}
+
+type Bid @entity {
+  id: ID! #txHash - txIndex
+  bidder: User!
+  bid: BigInt!
+  isCancel: Boolean!
+  auction: Auction!
+  timestamp: BigInt!
+}
+
+type User @entity {
+  id: ID!
+  name: String
+  bids: [Bid!]
+  auctions: [Auction!]
+}
+
+type Token @entity {
+  id: ID!
+  tokenSymbol: String!
+  tokenName: String!
+  tokenKind: BigInt!
+  assetCategory: BigInt
+  nftCategory: BigInt
+  pnftCategory: BigInt
+}
+
+type Commodity @entity {
+  id: ID!
+  token: Token
+  tokenId: BigInt
+  reference: String
+  isLive: Boolean
+  isFake: Boolean
+  metadata: [BigInt!]
+  nftCategory: BigInt
+}
+
+type Packable @entity {
+    id: ID! #tokenAddress
+    token: Token!
+    tokenKind: BigInt!
+    ids: [PackableId!]
+}
+
+type PackableId @entity {
+    id: ID! #tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
+    packable: Packable! 
+    tokenId: String!
+    metadata: [BigInt!]
+}
