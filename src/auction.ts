@@ -4,6 +4,8 @@ import {
     CancelBid,
     CancelDeal,
     FundAuction,
+    IsKillable,
+    Killed,
     NewBid,
     PayDeal,
     UpdateBid
@@ -106,3 +108,20 @@ export function handlePayDeal(event: PayDeal): void {
     }
 }
 
+export function handleIsKillable(event: IsKillable): void {
+    let auction = Auction.load(event.address.toHexString());
+
+    if (auction != null) {
+        auction.isKillable = true;
+        auction.save();
+    }
+}
+
+export function handleKilled(event: Killed): void {
+    let auction = Auction.load(event.address.toHexString());
+
+    if (auction != null) {
+        auction.isKilled = true;
+        auction.save();
+    }
+}

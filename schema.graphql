@@ -19,6 +19,8 @@ type Auction @entity {
   isClose: Boolean!
   isDealPaid: Boolean!
   isDealCancelled: Boolean!
+  isKillable: Boolean!
+  isKilled: Boolean!
 }
 
 type Bid @entity {

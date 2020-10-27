@@ -159,3 +159,7 @@ templates:
           handler: handlePayDeal
         - event: UpdateBid(indexed address,uint256)
           handler: handleUpdateBid
+        - event: IsKillable()
+          handler: handleIsKillable
+        - event: Killed()
+          handler: handleKilled
