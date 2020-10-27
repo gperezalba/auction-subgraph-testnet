@@ -6,7 +6,7 @@ dataSources:
     name: AuctionFactory
     network: mainnet
     source:
-      address: "0x1F1dC376B7DF6011Db6D20E0A2005A03004778c2"
+      address: "0x4AfB5E1Dd91A54e76b0623D009291Af9Ec54F504"
       abi: AuctionFactory
     mapping:
       kind: ethereum/events
