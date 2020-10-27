@@ -157,8 +157,6 @@ templates:
           handler: handleFundAuction
         - event: NewBid(indexed address,uint256)
           handler: handleNewBid
-        - event: Pay(indexed address,indexed address,indexed bytes32,uint256)
-          handler: handlePay
         - event: PayDeal(indexed address,uint256)
           handler: handlePayDeal
         - event: UpdateBid(indexed address,uint256)
