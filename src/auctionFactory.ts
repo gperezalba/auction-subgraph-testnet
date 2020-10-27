@@ -42,6 +42,8 @@ export function handleNewAuction(event: NewAuction): void {
     auction.isClose = false;
     auction.isDealPaid = false;
     auction.isDealCancelled = false;
+    auction.isKillable = false;
+    auction.isKilled = false;
 
     auction.save();
 
