@@ -146,6 +146,8 @@ templates:
       abis:
         - name: Auction
           file: ./abis/Auction.json
+        - name: NameService
+          file: ./abis/NameService.json
       eventHandlers:
         - event: CancelBid(indexed address)
           handler: handleCancelBid
