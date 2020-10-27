@@ -1,10 +1,10 @@
+import { BigInt } from "@graphprotocol/graph-ts";
 import { Auction, Bid, User } from "../generated/schema";
 import { 
     CancelBid,
     CancelDeal,
     FundAuction,
     NewBid,
-    Pay,
     PayDeal,
     UpdateBid
 } from "../generated/templates/Auction/Auction";
@@ -33,8 +33,12 @@ export function handleNewBid(event: NewBid): void {
             bid = new Bid(bidId);
             bid.auction = auction.id;
             bid.bid = event.params.bid;
+            let bidPrices: Array<BigInt> = [];
+            bidPrices.push(event.params.bid)
+            bid.bids = bidPrices;
             bid.bidder = event.params.bidder.toHexString();
             bid.isCancel = false;
+            bid.timestamp = event.block.timestamp;
             bid.save();
         }
 
@@ -58,7 +62,19 @@ export function handleUpdateBid(event: UpdateBid): void {
 
     if (bid == null) {
         bid.bid = event.params.bid;
+        let bidPrices = bid.bids;
+        bidPrices.push(event.params.bid);
+        bid.bids = bidPrices;
+        bid.timestamp = event.block.timestamp;
         bid.save();
+    }
+
+    let auction = Auction.load(event.address.toHexString());
+
+    if (auction != null) {
+        auction.maxBid = event.params.bid;
+        auction.maxBidder = event.params.bidder.toHexString();
+        auction.save();
     }
 }
 
@@ -73,14 +89,20 @@ export function handleCancelBid(event: CancelBid): void {
 }
 
 export function handleCancelDeal(event: CancelDeal): void {
-    
-}
+    let auction = Auction.load(event.address.toHexString());
 
-export function handlePay(event: Pay): void {
-    
+    if (auction != null) {
+        auction.isDealCancelled = true;
+        auction.save();
+    }
 }
 
 export function handlePayDeal(event: PayDeal): void {
-    
+    let auction = Auction.load(event.address.toHexString());
+
+    if (auction != null) {
+        auction.isDealPaid = true;
+        auction.save();
+    }
 }
 

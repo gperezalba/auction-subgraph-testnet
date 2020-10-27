@@ -2,6 +2,7 @@ import { Auction, Token } from "../generated/schema"
 import { NewAuction } from "../generated/AuctionFactory/AuctionFactory"
 import { Auction as AuctionTemplate } from "../generated/templates"
 import { BigInt } from "@graphprotocol/graph-ts";
+import { createUserIfNull } from "./user";
 
 export function handleNewAuction(event: NewAuction): void {
     let auction = Auction.load(event.params.newAuction.toHexString());
@@ -12,6 +13,8 @@ export function handleNewAuction(event: NewAuction): void {
 
     let tokens = event.params.tokens;
     let auctionToken = Token.load(tokens[0].toHexString());
+
+    createUserIfNull(event.params.owner.toHexString());
 
     auction.owner = event.params.owner.toHexString();
     auction.auctionToken = auctionToken.id;
@@ -31,8 +34,14 @@ export function handleNewAuction(event: NewAuction): void {
     auction.bidPrice = settings[0].div(BigInt.fromI32(10));
     auction.minValue = settings[0];
     auction.maxBid = settings[0];
+    auction.startTime = event.block.timestamp;
     auction.endTime = settings[1];
     auction.auditor = event.params.auditor;
+    auction.bids = [];
+    auction.isOpen = false;
+    auction.isClose = false;
+    auction.isDealPaid = false;
+    auction.isDealCancelled = false;
 
     auction.save();
 

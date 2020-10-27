@@ -12,18 +12,20 @@ type Auction @entity {
   maxBidder: User
   startTime: BigInt!
   endTime: BigInt!
-  auditor: Bytes
-  description: String!
+  auditor: Bytes!
   category: BigInt!
   bids: [Bid!]
   isOpen: Boolean!
   isClose: Boolean!
+  isDealPaid: Boolean!
+  isDealCancelled: Boolean!
 }
 
 type Bid @entity {
   id: ID! #txHash - txIndex
   bidder: User!
   bid: BigInt!
+  bids: [BigInt!]
   isCancel: Boolean!
   auction: Auction!
   timestamp: BigInt!
