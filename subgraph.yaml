@@ -17,6 +17,8 @@ dataSources:
       abis:
         - name: AuctionFactory
           file: ./abis/AuctionFactory.json
+        - name: NameService
+          file: ./abis/NameService.json
       eventHandlers:
         - event: NewAuction(indexed address,indexed address,address[],uint256,bytes32,address,uint256[])
           handler: handleNewAuction
