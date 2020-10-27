@@ -62,7 +62,7 @@ export function handleUpdateBid(event: UpdateBid): void {
     let bidId = event.address.toHexString().concat("-").concat(event.params.bidder.toHexString());
     let bid = Bid.load(bidId);
 
-    if (bid == null) {
+    if (bid != null) {
         bid.bid = event.params.bid;
         let bidPrices = bid.bids;
         bidPrices.push(event.params.bid);
