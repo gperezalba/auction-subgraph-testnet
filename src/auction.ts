@@ -95,6 +95,7 @@ export function handleCancelDeal(event: CancelDeal): void {
 
     if (auction != null) {
         auction.isDealCancelled = true;
+        auction.isOpen = false;
         auction.save();
     }
 }
@@ -104,6 +105,7 @@ export function handlePayDeal(event: PayDeal): void {
 
     if (auction != null) {
         auction.isDealPaid = true;
+        auction.isOpen = false;
         auction.save();
     }
 }
