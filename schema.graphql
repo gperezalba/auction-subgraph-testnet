@@ -33,6 +33,16 @@ type Bid @entity {
   timestamp: BigInt!
 }
 
+type Notification @entity {
+  id: ID! #txHash - txIndex
+  auction: Auction!
+  bid: BigInt!
+  bidder: User!
+  newBid: BigInt!
+  newBidder: User!
+  timestamp: BigInt!
+}
+
 type User @entity {
   id: ID!
   name: String

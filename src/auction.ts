@@ -1,5 +1,5 @@
 import { BigInt } from "@graphprotocol/graph-ts";
-import { Auction, Bid, User } from "../generated/schema";
+import { Auction, Bid, User, Notification } from "../generated/schema";
 import { 
     CancelBid,
     CancelDeal,
@@ -29,6 +29,13 @@ export function handleNewBid(event: NewBid): void {
         auction.maxBidder = event.params.bidder.toHexString();
         
         let bidId = event.address.toHexString().concat("-").concat(event.params.bidder.toHexString());
+        createNotification(
+            auction.id, 
+            bidId, 
+            event.params.bid, 
+            event.params.bidder.toHexString(), 
+            event.block.timestamp
+        );
         let bid = Bid.load(bidId);
 
         if (bid == null) {
@@ -58,8 +65,42 @@ export function handleNewBid(event: NewBid): void {
     }
 }
 
+function createNotification(
+    auctionId: string, 
+    notificationId: string, 
+    newBid: BigInt, 
+    newBidder: string,
+    timestamp: BigInt
+): void {
+    let auction = Auction.load(auctionId);
+
+    if (auction != null) {
+        let notification = Notification.load(notificationId);
+
+        if (notification == null) {
+            notification = new Notification(notificationId);
+
+            notification.auction = auction.id;
+            notification.bid = auction.maxBid;
+            notification.bidder = auction.maxBidder;
+            notification.newBid = newBid;
+            notification.newBidder = newBidder;
+            notification.timestamp = timestamp;
+
+            notification.save();
+        }
+    }
+}
+
 export function handleUpdateBid(event: UpdateBid): void {
     let bidId = event.address.toHexString().concat("-").concat(event.params.bidder.toHexString());
+    createNotification(
+        event.address.toHexString(), 
+        bidId, 
+        event.params.bid, 
+        event.params.bidder.toHexString(), 
+        event.block.timestamp
+    );
     let bid = Bid.load(bidId);
 
     if (bid != null) {
