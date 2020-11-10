@@ -75,19 +75,21 @@ function createNotification(
     let auction = Auction.load(auctionId);
 
     if (auction != null) {
-        let notification = Notification.load(notificationId);
+        if (auction.maxBidder != null){
+            let notification = Notification.load(notificationId);
 
-        if (notification == null) {
-            notification = new Notification(notificationId);
+            if (notification == null) {
+                notification = new Notification(notificationId);
 
-            notification.auction = auction.id;
-            notification.bid = auction.maxBid;
-            notification.bidder = auction.maxBidder;
-            notification.newBid = newBid;
-            notification.newBidder = newBidder;
-            notification.timestamp = timestamp;
+                notification.auction = auction.id;
+                notification.bid = auction.maxBid;
+                notification.bidder = auction.maxBidder;
+                notification.newBid = newBid;
+                notification.newBidder = newBidder;
+                notification.timestamp = timestamp;
 
-            notification.save();
+                notification.save();
+            }
         }
     }
 }
