@@ -31,7 +31,7 @@ export function handleNewBid(event: NewBid): void {
         let bidId = event.address.toHexString().concat("-").concat(event.params.bidder.toHexString());
         createNotification(
             auction.id, 
-            bidId, 
+            event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()), 
             event.params.bid, 
             event.params.bidder.toHexString(), 
             event.block.timestamp
@@ -98,7 +98,7 @@ export function handleUpdateBid(event: UpdateBid): void {
     let bidId = event.address.toHexString().concat("-").concat(event.params.bidder.toHexString());
     createNotification(
         event.address.toHexString(), 
-        bidId, 
+        event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()), 
         event.params.bid, 
         event.params.bidder.toHexString(), 
         event.block.timestamp
