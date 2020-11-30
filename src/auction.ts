@@ -53,8 +53,7 @@ export function handleNewBid(event: NewBid): void {
             event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()),
             event.params.bidder,
             event.params.bid,
-            event.block.timestamp,
-            bid as Bid
+            event.block.timestamp
         );
         
         let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
@@ -111,18 +110,16 @@ function createBidDetails(
     id: string,
     bidder: Address,
     bid: BigInt,
-    timestamp: BigInt,
-    bidEntity: Bid
+    timestamp: BigInt
 ): void {
     let bidDetails = BidDetails.load(id);
-    let user = User.load(bidder.toHexString());
 
     if (bidDetails == null) {
         bidDetails = new BidDetails(id);
         bidDetails.bid = bid;
-        bidDetails.bidder = user.id;
+        bidDetails.bidder = bidder.toHexString();
         bidDetails.timestamp = timestamp;
-        bidDetails.bidEntity = bidEntity.id;
+        //bidDetails.bidEntity = bidEntity.id;
 
         bidDetails.save();
     }
@@ -144,8 +141,7 @@ export function handleUpdateBid(event: UpdateBid): void {
             event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()),
             event.params.bidder,
             event.params.bid,
-            event.block.timestamp,
-            bid as Bid
+            event.block.timestamp
         );
         let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
         bid.bid = event.params.bid;
