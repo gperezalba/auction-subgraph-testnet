@@ -24,7 +24,7 @@ type Auction @entity {
 }
 
 type Bid @entity {
-  id: ID! #txHash - txIndex
+  id: ID! #auction - bidder
   bidder: User!
   bid: BigInt!
   bids: [BidDetails!]
