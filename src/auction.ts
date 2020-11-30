@@ -43,6 +43,7 @@ export function handleNewBid(event: NewBid): void {
             bid.auction = auction.id;
             bid.bid = event.params.bid;
             bid.bidder = event.params.bidder.toHexString();
+            bid.bids = [];
             bid.isCancel = false;
             bid.timestamp = event.block.timestamp;
             bid.save();
@@ -58,7 +59,7 @@ export function handleNewBid(event: NewBid): void {
         
         let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
 
-        let bidPrices: Array<string> = [];
+        let bidPrices = bid.bids;
         bidPrices.push(bidDetails.id)
         bid.bids = bidPrices;
         bid.save();
