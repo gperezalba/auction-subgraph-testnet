@@ -14,7 +14,7 @@ type Auction @entity {
   endTime: BigInt!
   auditor: Bytes!
   category: BigInt!
-  bids: [Bid!]
+  bids: [BidDetails!]
   isOpen: Boolean!
   isClose: Boolean!
   isDealPaid: Boolean!
@@ -27,10 +27,18 @@ type Bid @entity {
   id: ID! #txHash - txIndex
   bidder: User!
   bid: BigInt!
-  bids: [BigInt!]
+  bids: [BidDetails!]
   isCancel: Boolean!
   auction: Auction!
   timestamp: BigInt!
+}
+
+type BidDetails @entity {
+  id: ID! #txHash - txIndex
+  bid: BigInt!
+  bidder: User!
+  timestamp: BigInt!
+  bidEntity: Bid @derivedFrom(field: "bids")
 }
 
 type Notification @entity {
@@ -79,7 +87,7 @@ type Packable @entity {
 }
 
 type PackableId @entity {
-    id: ID! #tokenAddress + tokenKind (hacerlo tokenAddress-wallet para usar el start_with?)
+    id: ID! #tokenId (expiry)
     packable: Packable! 
     tokenId: String!
     metadata: [BigInt!]

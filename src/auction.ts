@@ -1,5 +1,5 @@
-import { BigInt } from "@graphprotocol/graph-ts";
-import { Auction, Bid, User, Notification } from "../generated/schema";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { Auction, Bid, User, Notification, BidDetails } from "../generated/schema";
 import { 
     CancelBid,
     CancelDeal,
@@ -36,14 +36,21 @@ export function handleNewBid(event: NewBid): void {
             event.params.bidder.toHexString(), 
             event.block.timestamp
         );
+        createBidDetails(
+            event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()),
+            event.params.bidder,
+            event.params.bid,
+            event.block.timestamp
+        )
         let bid = Bid.load(bidId);
+        let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
 
         if (bid == null) {
             bid = new Bid(bidId);
             bid.auction = auction.id;
             bid.bid = event.params.bid;
-            let bidPrices: Array<BigInt> = [];
-            bidPrices.push(event.params.bid)
+            let bidPrices: Array<string> = [];
+            bidPrices.push(bidDetails.id)
             bid.bids = bidPrices;
             bid.bidder = event.params.bidder.toHexString();
             bid.isCancel = false;
@@ -52,7 +59,7 @@ export function handleNewBid(event: NewBid): void {
         }
 
         let bidsArray = auction.bids;
-        bidsArray.push(bid.id);
+        bidsArray.push(bidDetails.id);
         auction.bids = bidsArray;
         auction.save();
 
@@ -94,6 +101,25 @@ function createNotification(
     }
 }
 
+function createBidDetails(
+    id: string,
+    bidder: Address,
+    bid: BigInt,
+    timestamp: BigInt
+): void {
+    let bidDetails = BidDetails.load(id);
+    let user = User.load(bidder.toHexString());
+
+    if (bidDetails == null) {
+        bidDetails = new BidDetails(id);
+        bidDetails.bid = bid;
+        bidDetails.bidder = user.id;
+        bidDetails.timestamp = timestamp;
+
+        bidDetails.save();
+    }
+}
+
 export function handleUpdateBid(event: UpdateBid): void {
     let bidId = event.address.toHexString().concat("-").concat(event.params.bidder.toHexString());
     createNotification(
@@ -103,12 +129,19 @@ export function handleUpdateBid(event: UpdateBid): void {
         event.params.bidder.toHexString(), 
         event.block.timestamp
     );
+    createBidDetails(
+        event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()),
+        event.params.bidder,
+        event.params.bid,
+        event.block.timestamp
+    )
     let bid = Bid.load(bidId);
+    let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
 
     if (bid != null) {
         bid.bid = event.params.bid;
         let bidPrices = bid.bids;
-        bidPrices.push(event.params.bid);
+        bidPrices.push(bidDetails.id);
         bid.bids = bidPrices;
         bid.timestamp = event.block.timestamp;
         bid.save();
@@ -119,6 +152,9 @@ export function handleUpdateBid(event: UpdateBid): void {
     if (auction != null) {
         auction.maxBid = event.params.bid;
         auction.maxBidder = event.params.bidder.toHexString();
+        let bidsArray = auction.bids;
+        bidsArray.push(bidDetails.id);
+        auction.bids = bidsArray;
         auction.save();
     }
 }
