@@ -36,27 +36,32 @@ export function handleNewBid(event: NewBid): void {
             event.params.bidder.toHexString(), 
             event.block.timestamp
         );
-        createBidDetails(
-            event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()),
-            event.params.bidder,
-            event.params.bid,
-            event.block.timestamp
-        )
         let bid = Bid.load(bidId);
-        let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
 
         if (bid == null) {
             bid = new Bid(bidId);
             bid.auction = auction.id;
             bid.bid = event.params.bid;
-            let bidPrices: Array<string> = [];
-            bidPrices.push(bidDetails.id)
-            bid.bids = bidPrices;
             bid.bidder = event.params.bidder.toHexString();
             bid.isCancel = false;
             bid.timestamp = event.block.timestamp;
             bid.save();
         }
+
+        createBidDetails(
+            event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()),
+            event.params.bidder,
+            event.params.bid,
+            event.block.timestamp,
+            bid as Bid
+        );
+        
+        let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
+
+        let bidPrices: Array<string> = [];
+        bidPrices.push(bidDetails.id)
+        bid.bids = bidPrices;
+        bid.save();
 
         let bidsArray = auction.bids;
         bidsArray.push(bidDetails.id);
@@ -105,7 +110,8 @@ function createBidDetails(
     id: string,
     bidder: Address,
     bid: BigInt,
-    timestamp: BigInt
+    timestamp: BigInt,
+    bidEntity: Bid
 ): void {
     let bidDetails = BidDetails.load(id);
     let user = User.load(bidder.toHexString());
@@ -115,6 +121,7 @@ function createBidDetails(
         bidDetails.bid = bid;
         bidDetails.bidder = user.id;
         bidDetails.timestamp = timestamp;
+        bidDetails.bidEntity = bidEntity.id;
 
         bidDetails.save();
     }
@@ -129,16 +136,17 @@ export function handleUpdateBid(event: UpdateBid): void {
         event.params.bidder.toHexString(), 
         event.block.timestamp
     );
-    createBidDetails(
-        event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()),
-        event.params.bidder,
-        event.params.bid,
-        event.block.timestamp
-    )
     let bid = Bid.load(bidId);
-    let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
 
     if (bid != null) {
+        createBidDetails(
+            event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()),
+            event.params.bidder,
+            event.params.bid,
+            event.block.timestamp,
+            bid as Bid
+        );
+        let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
         bid.bid = event.params.bid;
         let bidPrices = bid.bids;
         bidPrices.push(bidDetails.id);
@@ -148,6 +156,7 @@ export function handleUpdateBid(event: UpdateBid): void {
     }
 
     let auction = Auction.load(event.address.toHexString());
+    let bidDetails = BidDetails.load(event.transaction.hash.toHexString().concat("-").concat(event.logIndex.toHexString()));
 
     if (auction != null) {
         auction.maxBid = event.params.bid;
