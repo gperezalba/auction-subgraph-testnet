@@ -38,7 +38,7 @@ type BidDetails @entity {
   bid: BigInt!
   bidder: User!
   timestamp: BigInt!
-  #bidEntity: Bid!
+  bidEntity: Bid!
 }
 
 type Notification @entity {
