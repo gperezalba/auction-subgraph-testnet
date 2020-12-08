@@ -29,6 +29,8 @@ type Bid @entity {
   bid: BigInt!
   bids: [BidDetails!]
   isCancel: Boolean!
+  auctionToken: Token!
+  bidToken: Token!
   auction: Auction!
   timestamp: BigInt!
 }

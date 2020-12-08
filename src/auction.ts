@@ -45,6 +45,8 @@ export function handleNewBid(event: NewBid): void {
             bid.bidder = event.params.bidder.toHexString();
             bid.bids = [];
             bid.isCancel = false;
+            bid.auctionToken = auction.auctionToken;
+            bid.bidToken = auction.bidToken;
             bid.timestamp = event.block.timestamp;
             bid.save();
         }
