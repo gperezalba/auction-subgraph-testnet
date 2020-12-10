@@ -1,4 +1,4 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt, log } from "@graphprotocol/graph-ts";
 import { Auction, Bid, User, Notification, BidDetails } from "../generated/schema";
 import { 
     CancelBid,
@@ -39,6 +39,7 @@ export function handleNewBid(event: NewBid): void {
         let bid = Bid.load(bidId);
 
         if (bid == null) {
+            log.info("----NEW BID------: ", [event.params.bidder.toHexString()])
             bid = new Bid(bidId);
             bid.auction = auction.id;
             bid.bid = event.params.bid;
