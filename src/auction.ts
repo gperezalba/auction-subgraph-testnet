@@ -39,7 +39,7 @@ export function handleNewBid(event: NewBid): void {
         let bid = Bid.load(bidId);
 
         if (bid == null) {
-            log.info("----NEW BID------: ", [event.params.bidder.toHexString()])
+            log.info("----NEW BID------: " + event.params.bidder.toHexString(), [])
             bid = new Bid(bidId);
             bid.auction = auction.id;
             bid.bid = event.params.bid;
