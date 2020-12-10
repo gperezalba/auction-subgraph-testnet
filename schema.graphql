@@ -14,6 +14,7 @@ type Auction @entity {
   endTime: BigInt!
   auditor: Bytes!
   category: BigInt!
+  endsByDate: Boolean!
   bids: [BidDetails!]
   isOpen: Boolean!
   isClose: Boolean!

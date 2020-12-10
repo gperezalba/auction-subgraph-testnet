@@ -7,6 +7,7 @@ import {
     IsKillable,
     Killed,
     NewBid,
+    NewEndTime,
     PayDeal,
     UpdateBid
 } from "../generated/templates/Auction/Auction";
@@ -166,6 +167,15 @@ export function handleUpdateBid(event: UpdateBid): void {
         let bidsArray = auction.bids;
         bidsArray.push(bidDetails.id);
         auction.bids = bidsArray;
+        auction.save();
+    }
+}
+
+export function handleNewEndTime(event: NewEndTime): void {
+    let auction = Auction.load(event.address.toHexString());
+
+    if (auction != null) {
+        auction.endTime = event.params.newEndTime;
         auction.save();
     }
 }

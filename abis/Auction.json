@@ -173,6 +173,20 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "auctionCategory",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "factory",
     "outputs": [
       {
@@ -201,6 +215,39 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "commission",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "selectors",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "controller",
     "outputs": [
       {
@@ -213,28 +260,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "name": "_owner",
-        "type": "address"
-      },
-      {
-        "name": "_auditor",
-        "type": "address"
-      },
-      {
-        "name": "_tokens",
-        "type": "address[]"
-      },
-      {
-        "name": "_settings",
-        "type": "uint256[]"
-      },
-      {
-        "name": "_controllerAddress",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -402,6 +428,18 @@
   },
   {
     "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "newEndTime",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewEndTime",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [],
     "name": "IsKillable",
     "type": "event"
@@ -411,6 +449,43 @@
     "inputs": [],
     "name": "Killed",
     "type": "event"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getSelectors",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes4[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_newCommission",
+        "type": "uint256"
+      }
+    ],
+    "name": "setCommission",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "piFallback",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
   },
   {
     "constant": false,
@@ -462,6 +537,15 @@
     "constant": false,
     "inputs": [],
     "name": "cancelDeal",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "noBidWithdrawl",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -558,6 +642,25 @@
     ],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_wallet",
+        "type": "address"
+      }
+    ],
+    "name": "isSmartID",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   }
 ]

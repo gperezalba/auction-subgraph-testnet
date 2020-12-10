@@ -45,6 +45,12 @@ export function handleNewAuction(event: NewAuction): void {
     auction.isKillable = false;
     auction.isKilled = false;
 
+    if (auction.endTime == BigInt.fromI32(0)) {
+        auction.endsByDate = false;
+    } else {
+        auction.endsByDate = true;
+    }
+
     auction.save();
 
     AuctionTemplate.create(event.params.newAuction);
