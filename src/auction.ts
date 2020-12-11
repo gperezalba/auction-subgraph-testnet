@@ -197,6 +197,16 @@ export function handleCancelDeal(event: CancelDeal): void {
         auction.isDealCancelled = true;
         auction.isOpen = false;
         auction.save();
+
+        let bidsArray = auction.bids as string[];
+        if (bidsArray.length > 0) {
+            let lastBidDetailsId = bidsArray[bidsArray.length - 1];
+            let bidDetails = BidDetails.load(lastBidDetailsId as string);
+            let lastBidId = bidDetails.bidEntity;
+            let bid = Bid.load(lastBidId);
+            bid.isCancel = true;
+            bid.save();
+        }
     }
 }
 
@@ -207,6 +217,16 @@ export function handlePayDeal(event: PayDeal): void {
         auction.isDealPaid = true;
         auction.isOpen = false;
         auction.save();
+
+        let bidsArray = auction.bids as string[];
+        if (bidsArray.length > 0) {
+            let lastBidDetailsId = bidsArray[bidsArray.length - 1];
+            let bidDetails = BidDetails.load(lastBidDetailsId as string);
+            let lastBidId = bidDetails.bidEntity;
+            let bid = Bid.load(lastBidId);
+            bid.isCancel = true;
+            bid.save();
+        }
     }
 }
 
