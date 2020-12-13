@@ -1,5 +1,5 @@
-import { Auction, Token } from "../generated/schema"
-import { NewAuction } from "../generated/AuctionFactory/AuctionFactory"
+import { Auction, Factory, Token } from "../generated/schema"
+import { NewAuction, NewCommission } from "../generated/AuctionFactory/AuctionFactory"
 import { Auction as AuctionTemplate } from "../generated/templates"
 import { BigInt } from "@graphprotocol/graph-ts";
 import { createUserIfNull } from "./user";
@@ -54,4 +54,15 @@ export function handleNewAuction(event: NewAuction): void {
     auction.save();
 
     AuctionTemplate.create(event.params.newAuction);
+}
+
+export function handleNewCommission(event: NewCommission): void {
+    let factory = Factory.load(event.address.toHexString());
+
+    if (factory == null) {
+        factory = new Factory(event.address.toHexString());
+    }
+
+    factory.commission = event.params.newCommission;
+    factory.save();
 }

@@ -22,6 +22,8 @@ dataSources:
       eventHandlers:
         - event: NewAuction(indexed address,indexed address,address[],uint256,bytes32,address,uint256[])
           handler: handleNewAuction
+        - event: NewCommission(uint256)
+          handler: handleNewCommission
       file: ./src/auctionFactory.ts
   - kind: ethereum/contract
     name: Controller

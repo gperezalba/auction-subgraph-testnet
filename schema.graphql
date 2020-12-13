@@ -1,3 +1,8 @@
+type Factory @entity {
+  id: ID! #Factory address
+  commission: BigInt!
+}
+
 type Auction @entity {
   id: ID!
   owner: User! #address

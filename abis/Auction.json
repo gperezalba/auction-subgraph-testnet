@@ -440,6 +440,18 @@
   },
   {
     "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "newCommission",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewCommission",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [],
     "name": "IsKillable",
     "type": "event"
