@@ -64,6 +64,7 @@ type User @entity {
   name: String
   bids: [Bid!]
   auctions: [Auction!]
+  offchainReputation: BigInt!
 }
 
 type Token @entity {

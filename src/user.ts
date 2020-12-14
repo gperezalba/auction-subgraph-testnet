@@ -1,6 +1,7 @@
 import { User } from "../generated/schema";
 import { BigInt, Address } from "@graphprotocol/graph-ts";
 import { NameService, CreateName } from "../generated/NameService/NameService";
+import { UpdateReputation } from "../generated/OffchainReputation/OffchainReputation";
 
 export function handleCreateName(event: CreateName): void {
     createUserIfNull(event.params.wallet.toHexString());
@@ -28,3 +29,12 @@ export function getNickname(walletAddress: string): string {
         return "reverted";
     }
 }
+
+export function handleUpdateReputation(event: UpdateReputation): void {
+    createUserIfNull(event.params.user .toHexString());
+    let user = User.load(event.params.user.toHexString());
+  
+    user.offchainReputation = event.params.reputation;
+  
+    user.save();
+  }

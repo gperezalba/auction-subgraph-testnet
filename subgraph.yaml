@@ -74,6 +74,25 @@ dataSources:
         - event: CreateName(string,indexed address,indexed address)
           handler: handleCreateName
       file: ./src/user.ts
+  - kind: ethereum/contract
+    name: OffchainReputation
+    network: mainnet
+    source:
+      address: "0x1F1dC376B7DF6011Db6D20E0A2005A03004778c2"
+      abi: OffchainReputation
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      entities:
+        - UpdateReputation
+      abis:
+        - name: OffchainReputation
+          file: ./abis/OffchainReputation.json
+      eventHandlers:
+        - event: UpdateReputation(address,uint256)
+          handler: handleUpdateReputation
+      file: ./src/user.ts
 templates:
   - name: Token
     kind: ethereum/contract
