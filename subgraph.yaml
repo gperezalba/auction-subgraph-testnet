@@ -90,6 +90,8 @@ dataSources:
       abis:
         - name: OffchainReputation
           file: ./abis/OffchainReputation.json
+        - name: NameService
+          file: ./abis/NameService.json
       eventHandlers:
         - event: UpdateReputation(address,uint256)
           handler: handleUpdateReputation
