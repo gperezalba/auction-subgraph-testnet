@@ -14,6 +14,7 @@ export function createUserIfNull(userId: string): void {
         user = new User(userId);
         user.bids = [];
         user.name = getNickname(userId);
+        user.offchainReputation = BigInt.fromI32(0);
 
         user.save();
     }
