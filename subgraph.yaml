@@ -86,6 +86,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - UpdateReputation
+        - NameService
       abis:
         - name: OffchainReputation
           file: ./abis/OffchainReputation.json
