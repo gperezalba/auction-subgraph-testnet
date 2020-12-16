@@ -148,6 +148,8 @@ function createBidDetails(
 
         let totalBids = user.totalBids;
         user.totalBids = totalBids.plus(BigInt.fromI32(1));
+
+        user.save();
     }
 }
 
