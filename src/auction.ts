@@ -20,9 +20,21 @@ export function handleFundAuction(event: FundAuction): void {
         auction.isOpen = true;
         auction.save();
     }
+
+    let user = User.load(auction.owner);
+
+    if (user == null) {
+        createUserIfNull(auction.owner);
+        user = User.load(auction.owner);
+    }
+
+    let auctionsAsOwner = user.auctionsAsOwner;
+    user.auctionsAsOwner = auctionsAsOwner.plus(BigInt.fromI32(1));
+    user.save();
 }
 
 export function handleNewBid(event: NewBid): void {
+    createUserIfNull(event.params.bidder.toHexString());
     let auction = Auction.load(event.address.toHexString());
 
     if (auction != null) {
@@ -50,6 +62,17 @@ export function handleNewBid(event: NewBid): void {
             bid.bidToken = auction.bidToken;
             bid.timestamp = event.block.timestamp;
             bid.save();
+
+            let user = User.load(event.params.bidder.toHexString());
+
+            let biddedAuctions = user.biddedAuctions;
+            user.biddedAuctions = biddedAuctions.plus(BigInt.fromI32(1));
+
+            let userBidsArray = user.bids;
+            userBidsArray.push(bid.id);
+            user.bids = userBidsArray;
+
+            user.save();
         }
 
         createBidDetails(
@@ -71,13 +94,6 @@ export function handleNewBid(event: NewBid): void {
         bidsArray.push(bidDetails.id);
         auction.bids = bidsArray;
         auction.save();
-
-        createUserIfNull(event.params.bidder.toHexString());
-        let user = User.load(event.params.bidder.toHexString());
-        let userBidsArray = user.bids;
-        userBidsArray.push(bid.id);
-        user.bids = userBidsArray;
-        user.save();
     }
 }
 
@@ -127,6 +143,11 @@ function createBidDetails(
         bidDetails.bidEntity = bidEntity.id;
 
         bidDetails.save();
+
+        let user = User.load(bidder.toHexString());
+
+        let totalBids = user.totalBids;
+        user.totalBids = totalBids.plus(BigInt.fromI32(1));
     }
 }
 
@@ -207,6 +228,11 @@ export function handleCancelDeal(event: CancelDeal): void {
             bid.isCancel = true;
             bid.save();
         }
+
+        let maxBidder = User.load(auction.maxBidder);
+        let badDeals = maxBidder.bidderBadDeals;
+        maxBidder.bidderBadDeals = badDeals.plus(BigInt.fromI32(1));
+        maxBidder.save();
     }
 }
 
@@ -227,6 +253,11 @@ export function handlePayDeal(event: PayDeal): void {
             bid.isCancel = true;
             bid.save();
         }
+
+        let maxBidder = User.load(auction.maxBidder);
+        let goodDeals = maxBidder.bidderGoodDeals;
+        maxBidder.bidderGoodDeals = goodDeals.plus(BigInt.fromI32(1));
+        maxBidder.save();
     }
 }
 

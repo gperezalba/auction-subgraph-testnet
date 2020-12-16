@@ -65,6 +65,11 @@ type User @entity {
   bids: [Bid!]
   auctions: [Auction!]
   offchainReputation: BigInt!
+  auctionsAsOwner: BigInt!
+  biddedAuctions: BigInt!
+  totalBids: BigInt!
+  bidderGoodDeals: BigInt!
+  bidderBadDeals: BigInt!
 }
 
 type Token @entity {

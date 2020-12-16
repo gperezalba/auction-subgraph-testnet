@@ -15,6 +15,11 @@ export function createUserIfNull(userId: string): void {
         user.bids = [];
         user.name = getNickname(userId);
         user.offchainReputation = BigInt.fromI32(0);
+        user.auctionsAsOwner = BigInt.fromI32(0);
+        user.biddedAuctions = BigInt.fromI32(0);
+        user.totalBids = BigInt.fromI32(0);
+        user.bidderGoodDeals = BigInt.fromI32(0);
+        user.bidderBadDeals = BigInt.fromI32(0);
 
         user.save();
     }
