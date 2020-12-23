@@ -88,6 +88,9 @@ export function handleNewBid(event: NewBid): void {
         let bidPrices = bid.bids;
         bidPrices.push(bidDetails.id)
         bid.bids = bidPrices;
+        bid.bid = event.params.bid;
+        bid.isCancel = false;
+        bid.timestamp = event.block.timestamp;
         bid.save();
 
         let bidsArray = auction.bids;
