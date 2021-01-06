@@ -30,6 +30,9 @@ export function handleFundAuction(event: FundAuction): void {
 
     let auctionsAsOwner = user.auctionsAsOwner;
     user.auctionsAsOwner = auctionsAsOwner.plus(BigInt.fromI32(1));
+    let auctionsArray = user.auctions;
+    auctionsArray.push(auction.id);
+    user.auctions = auctionsArray;
     user.save();
 }
 
