@@ -225,6 +225,7 @@ export function handleCancelDeal(event: CancelDeal): void {
     if (auction != null) {
         auction.isDealCancelled = true;
         auction.isOpen = false;
+        auction.isClose = true;
         auction.save();
 
         let bidsArray = auction.bids as string[];
@@ -250,6 +251,7 @@ export function handlePayDeal(event: PayDeal): void {
     if (auction != null) {
         auction.isDealPaid = true;
         auction.isOpen = false;
+        auction.isClose = true;
         auction.save();
 
         let bidsArray = auction.bids as string[];
