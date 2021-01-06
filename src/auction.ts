@@ -276,6 +276,8 @@ export function handleIsKillable(event: IsKillable): void {
 
     if (auction != null) {
         auction.isKillable = true;
+        auction.isOpen = false;
+        auction.isClose = true;
         auction.save();
     }
 }
