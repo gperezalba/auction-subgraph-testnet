@@ -33,7 +33,6 @@ export function handleFundAuction(event: FundAuction): void {
     let auctionsArray = user.auctions;
     auctionsArray.push(auction.id);
     user.auctions = auctionsArray;
-    log.info("------------ENTRA", [])
     user.save();
 }
 

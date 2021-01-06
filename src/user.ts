@@ -12,6 +12,7 @@ export function createUserIfNull(userId: string): void {
 
     if (user == null) {
         user = new User(userId);
+        user.auctions = [];
         user.bids = [];
         user.name = getNickname(userId);
         user.offchainReputation = BigInt.fromI32(0);
